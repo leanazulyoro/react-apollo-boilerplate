@@ -1,7 +1,6 @@
 {
-  "name": "tn-cover-frontend",
-  "version": "0.1.0",
-  "private": true,
+  "name": "react-apollo-boilerplate",
+  "version": "0.0.1",
   "scripts": {
     "start:prod": "better-npm-run start:prod",
     "start:dev": "better-npm-run start:dev",

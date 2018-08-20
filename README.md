@@ -39,17 +39,17 @@ Create a new build configuration:
   "protocol": "inspector",
   "request": "attach",
   "stopOnEntry": false,
-  "port": 9235,
+  "port": 9229,
   "localRoot": "${workspaceRoot}",
   "remoteRoot": "/app",
   "sourceMaps": true
 }
-``` 
+```
  ##### Webstorm
 Create a new run configuration:
 - Select "Attach to Node.js/Chrome"
 - Host: "localhost"
-- Port: 9235
+- Port: 9229
 - Select "Chrome or Node.js > 6.3 started with --inspect"
 
 #### Webstorm config Tips

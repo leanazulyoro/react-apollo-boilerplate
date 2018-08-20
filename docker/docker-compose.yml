@@ -1,22 +1,22 @@
 version: '3'
 services:
-  tn_cover:
-    image: 'tn/cover:latest'
+  app:
+    image: 'app:latest'
     build:
       context: ../
       dockerfile: docker/Dockerfile.end
       args:
-        PORT: '8302'
+        PORT: '3000'
     environment:
       TZ: 'America/Argentina/Buenos_Aires'
       NODE_ENV: 'development'
-      PORT: '8302'
+      PORT: '3000'
       HOST_API: 'http://cover_backoffice_api:8299'
       GRAPHQL_URI: '/graphql'
     volumes:
       - ../:/app:rw
       - /app/node_modules
     ports:
-      - '8302:8302'
-      - '9302:9302'
+      - '3000:3000'
+      - '9229:9229'
     restart: always

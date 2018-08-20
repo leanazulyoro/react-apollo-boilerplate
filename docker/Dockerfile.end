@@ -19,5 +19,5 @@ RUN apk add --no-cache --virtual build-dependencies \
         gd-dev \
         && npm install \
         && apk del build-dependencies
-EXPOSE $PORT 9302
+EXPOSE $PORT 9229
 CMD npm run start:dev
