@@ -4,32 +4,26 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const Copy = require("copy-webpack-plugin");
 
 const staticSuffix = config.build_number ? `-${config.build_number}` : "";
-const ExtractStyle = new ExtractTextPlugin(`css/common${staticSuffix}.css`);
+const ExtractStyle = new ExtractTextPlugin(`css/styles${staticSuffix}.css`);
 
 module.exports = {
-
   mode: 'production',
-
   entry: {
     main: [
       "babel-polyfill",
       config.paths.client("client.js")
     ]
   },
-
   output: {
     publicPath: config.compiler_public_path,
     path: config.paths.dist(),
     filename: `[name].bundle${staticSuffix}.js`,
     chunkFilename: `[name].bundle${staticSuffix}.js`
   },
-
   target: "web",
-
   node: {
     fs: "empty",
   },
-
   module: {
     rules: [
       {
@@ -118,7 +112,6 @@ module.exports = {
       }
     ]
   },
-
   plugins: [
     ExtractStyle,
     new webpack.DefinePlugin(config.globals),
@@ -130,9 +123,17 @@ module.exports = {
     ]),
     new webpack.optimize.AggressiveMergingPlugin()
   ],
-
-  externals: {
-    "react": "React",
-    "react-dom": "ReactDOM"
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /node_modules/,
+          chunks: "initial",
+          name: "vendor",
+          priority: 10,
+          enforce: true
+        }
+      }
+    }
   }
 };

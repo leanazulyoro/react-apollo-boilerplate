@@ -23,8 +23,7 @@ const renderHtml = (markup, client) => {
     .withHelmet(helmet.style.toComponent())
     .withFooterTag('script', { charSet: 'UTF-8' }, `window.__APOLLO_STATE__=${saferstringify(client ? client.extract() : {})};`)
     .withFooterTag('script', { charSet: 'UTF-8' }, `var CONFIG=${JSON.stringify({ client: config.client })};`)
-    .withFooterTag('script', { defer: true, src: config.client.cdn_static_url + '/scripts/react.min.js' })
-    .withFooterTag('script', { defer: true, src: config.client.cdn_static_url + '/scripts/react-dom.min.js' })
+    .withFooterTag('script', { defer: true, src: config.client.cdn_static_url + `/vendor.bundle${staticSuffix}.js` })
     .withFooterTag('script', { defer: true, src: config.client.cdn_static_url + `/main.bundle${staticSuffix}.js` })
     .withMarkup(<main
       id='root'

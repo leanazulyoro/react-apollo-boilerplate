@@ -1,28 +1,27 @@
-const fs = require("fs");
-const config = require("./config");
-const webpack = require("webpack");
-
+const config = require('./config');
+const webpack = require('webpack');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
 
   mode: 'production',
 
   entry: {
-    server: ["babel-polyfill", config.paths.server("server.js")]
+    server: ['babel-polyfill', config.paths.server('server.js')]
   },
 
   output: {
-    filename: "server.js",
+    filename: 'server.js',
     path: config.paths.dist(),
     publicPath: config.compiler_public_path
   },
 
-  target: "node",
+  target: 'node',
 
   node: {
     __filename: true,
     __dirname: true,
-    fs: "empty"
+    fs: 'empty'
   },
 
   module: {
@@ -30,17 +29,20 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: "babel-loader"
+        use: 'babel-loader'
       },
       {
         test: /\.(s)?css$/,
         include: config.paths.client(),
         use: [
           {
-            loader: "css-loader"
+            loader: 'css-loader',
+            options: {
+              localIdentName: '[path]___[name]__[local]___[hash:base64:5]'
+            }
           },
           {
-            loader: "sass-loader",
+            loader: 'sass-loader',
             options: {
               data: `$cdnUrl: '${config.cdn_url}';`
             }
@@ -48,27 +50,18 @@ module.exports = {
         ]
       },
       {
-        test: /\.css/,
-        include: config.paths.client(),
-        use: [
-          {
-            loader: "css-loader"
-          }
-        ]
-      },
-      {
         test: /\.(jpe?g|png|gif|svg)$/i,
         use: [
           {
-            loader: "file-loader",
+            loader: 'file-loader',
             options: {
-              hash: "sha512",
-              digest: "hex",
-              name: "img/[hash].[ext]"
+              hash: 'sha512',
+              digest: 'hex',
+              name: 'img/[hash].[ext]'
             }
           },
           {
-            loader: "image-webpack-loader",
+            loader: 'image-webpack-loader',
             options: {
               gifsicle: {
                 interlaced: false,
@@ -77,7 +70,7 @@ module.exports = {
                 optimizationLevel: 7,
               },
               pngquant: {
-                quality: "65-90",
+                quality: '65-90',
                 speed: 4
               },
               mozjpeg: {
@@ -104,11 +97,11 @@ module.exports = {
       {
         test: /\.(eot|ttf|woff|woff2)$/,
         use: {
-          loader: "file-loader",
+          loader: 'file-loader',
           options: {
-            hash: "sha512",
-            digest: "hex",
-            name: "fonts/[hash].[ext]"
+            hash: 'sha512',
+            digest: 'hex',
+            name: 'fonts/[hash].[ext]'
           }
         }
       }
@@ -118,10 +111,5 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin(config.globals)
   ],
-  externals: fs.readdirSync(`${config.path_base}/node_modules/`).concat([
-    "react-dom/server", "react/addons",
-  ]).reduce(function (ext, mod) {
-    ext[mod] = `commonjs ${mod}`;
-    return ext
-  }, {})
+  externals: [nodeExternals()]
 };

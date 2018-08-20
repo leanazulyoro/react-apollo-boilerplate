@@ -3,7 +3,6 @@ const config = require('./config');
 
 module.exports = {
   mode: 'development',
-
   entry: {
     main: [
       'babel-polyfill',
@@ -11,20 +10,16 @@ module.exports = {
       `webpack-hot-middleware/client?path=${config.compiler_public_path}__webpack_hmr`
     ]
   },
-
   output: {
     publicPath: config.compiler_public_path,
     path: config.paths.dist(),
     filename: `[name].bundle.js`,
     chunkFilename: `[name].bundle.js`
   },
-
   target: 'web',
-
   node: {
     fs: 'empty',
   },
-
   module: {
     rules: [
       {
@@ -125,24 +120,26 @@ module.exports = {
       }
     ]
   },
-
   plugins: [
     new webpack.DefinePlugin(config.globals),
     new webpack.HotModuleReplacementPlugin(),
   ],
-
   optimization: {
     noEmitOnErrors: true,
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /node_modules/,
+          chunks: "initial",
+          name: "vendor",
+          priority: 10,
+          enforce: true
+        }
+      }
+    }
   },
-
-  externals: {
-    'react': 'React',
-    'react-dom': 'ReactDOM'
-  },
-
   devServer: {
     outputPath: config.paths.dist(),
     historyApiFallback: true
   }
-
 };

@@ -9,7 +9,7 @@ export default function configureDevServer(server) {
 
     cssRequireHook({
       devMode: process.env.NODE_ENV === 'development',
-      generateScopedName: 'style.css',
+      generateScopedName: 'styles.css',
       extensions: ['.scss', '.css']
     });
 
@@ -27,6 +27,8 @@ export default function configureDevServer(server) {
       path: '/__webpack_hmr'
     }));
 
+
+    // @todo: use webpack-hot-server-middleware instead of chokindar
     const watcher = chokidar.watch('./server');
 
     watcher.on('ready', function () {

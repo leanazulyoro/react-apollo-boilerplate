@@ -1,6 +1,6 @@
 {
   "server": {
-    "port": "8302",
+    "port": "3000",
     "cache": {
       "ttl": "30",
       "static_ttl": "1800"
@@ -12,9 +12,9 @@
     "title_site_name": "TN Cover Frontend",
     "cdn_static_url": "",
     "newrelic": {
-      "enable": true,
+      "enable": false,
       "license_key": "",
-      "app_name": "tn-cover-frontend"
+      "app_name": "react-apollo-boilerplate"
     },
     "heapdump": {
       "enable": false
