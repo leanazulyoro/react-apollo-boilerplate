@@ -1,6 +1,4 @@
-# TN Cover Frontend
-
-Based on [React frontend boilerplate](https://github.com/Artear/react-frontend-boilerplate).
+# React Apollo Boilerplate
 
 
 ## Usage
