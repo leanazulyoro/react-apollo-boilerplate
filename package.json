@@ -50,7 +50,7 @@
       }
     },
     "start:dev": {
-      "command": "npm run clean && babel-node --inspect=0.0.0.0:9235 server/server.js",
+      "command": "npm run clean && babel-node --inspect=0.0.0.0:9235 src/server/server.js",
       "env": {
         "NODE_ENV": "development"
       }

@@ -1,14 +1,14 @@
 import React from "react";
 import { hydrate } from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom"
-import routes from "./routes";
 import client from "./apollo/apolloClient";
 import { ApolloProvider } from "react-apollo";
+import Routes from './routes';
 
 hydrate(
   <ApolloProvider client={client}>
     <Router>
-      {routes}
+      <Routes />
     </Router>
   </ApolloProvider>,
   document.getElementById("root")

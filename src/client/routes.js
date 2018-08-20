@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import HelloWorldContainer from './containers/HelloWorld/HelloWorldContainer';
 
-export default (
+const Routes = () => (
   <Switch>
     <Route exact path="/" render={
       (props) => (
@@ -11,3 +11,5 @@ export default (
     } />
   </Switch>
 );
+
+export default Routes;

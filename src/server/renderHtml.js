@@ -1,10 +1,10 @@
 import React from 'react';
 import config from 'isomorphic-config';
-import {Helmet} from 'react-helmet';
-import project from '../webpack/config';
+import { Helmet } from 'react-helmet';
+import project from '../../webpack/config';
 import saferstringify from 'safer-stringify';
 import HtmlBuilder from './builder/HtmlBuilder';
-import {renderToStaticMarkup} from 'react-dom/server';
+import { renderToStaticMarkup } from 'react-dom/server';
 
 const staticSuffix = project.build_number ? `-${project.build_number}` : '';
 
@@ -21,14 +21,14 @@ const renderHtml = (markup, client) => {
     .withHelmet(helmet.noscript.toComponent())
     .withHelmet(helmet.script.toComponent())
     .withHelmet(helmet.style.toComponent())
-    .withFooterTag('script', {charSet: 'UTF-8'}, `window.__APOLLO_STATE__=${saferstringify(client ? client.extract() : {})};`)
-    .withFooterTag('script', {charSet: 'UTF-8'}, `var CONFIG=${JSON.stringify({client: config.client})};`)
-    .withFooterTag('script', {defer: true, src: config.client.cdn_static_url + '/scripts/react.min.js'})
-    .withFooterTag('script', {defer: true, src: config.client.cdn_static_url + '/scripts/react-dom.min.js'})
-    .withFooterTag('script', {defer: true, src: config.client.cdn_static_url + `/main.bundle${staticSuffix}.js`})
+    .withFooterTag('script', { charSet: 'UTF-8' }, `window.__APOLLO_STATE__=${saferstringify(client ? client.extract() : {})};`)
+    .withFooterTag('script', { charSet: 'UTF-8' }, `var CONFIG=${JSON.stringify({ client: config.client })};`)
+    .withFooterTag('script', { defer: true, src: config.client.cdn_static_url + '/scripts/react.min.js' })
+    .withFooterTag('script', { defer: true, src: config.client.cdn_static_url + '/scripts/react-dom.min.js' })
+    .withFooterTag('script', { defer: true, src: config.client.cdn_static_url + `/main.bundle${staticSuffix}.js` })
     .withMarkup(<main
       id='root'
-      dangerouslySetInnerHTML={{__html: markup}} // eslint-disable-line react/no-danger
+      dangerouslySetInnerHTML={{ __html: markup }} // eslint-disable-line react/no-danger
     />);
 
   if (process.env.NODE_ENV !== 'development') {
