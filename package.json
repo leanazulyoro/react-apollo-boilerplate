@@ -2,6 +2,39 @@
   "name": "tn-cover-frontend",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start:prod": "better-npm-run start:prod",
+    "start:dev": "better-npm-run start:dev",
+    "clean": "rimraf build",
+    "deploy": "npm run clean && webpack --mode production --config ./webpack/webpack.server.config.js && webpack --mode production --config ./webpack/webpack.prod.config.js",
+    "test": "jest --verbose --coverage",
+    "test:ci": "jest --verbose --coverage --maxWorkers=2",
+    "test:watch": "npm test -- --watch",
+    "lint": "eslint client/**/*.js server/**/*.js --fix"
+  },
+  "betterScripts": {
+    "start:prod": {
+      "command": "npm run deploy && node build/server.js",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    "start:dev": {
+      "command": "npm run clean && babel-node --inspect=0.0.0.0:9235 src/server/server.js",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    }
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(scss|css)$": "<rootDir>/node_modules/jest-css-modules"
+    },
+    "setupFiles": [
+      "<rootDir>/test/shim.js",
+      "<rootDir>/test/enzyme.config.js"
+    ]
+  },
   "dependencies": {
     "apollo-cache-inmemory": "^1.1.11",
     "apollo-client": "^2.2.7",
@@ -27,40 +60,6 @@
     "react-router-dom": "^4.2.2",
     "safer-stringify": "^0.0.1",
     "yn": "^2.0.0"
-  },
-  "scripts": {
-    "start:prod": "better-npm-run start:prod",
-    "start:dev": "better-npm-run start:dev",
-    "clean": "rimraf build",
-    "start:trace": "npm run deploy:prod && node --debug build/server.js",
-    "deploy:prod": "npm run clean && webpack --mode production --config ./webpack/webpack.server.config.js && webpack --mode production --config ./webpack/webpack.prod.config.js",
-    "test": "jest --verbose --coverage",
-    "test:ci": "jest --verbose --coverage --maxWorkers=2",
-    "test:watch": "npm test -- --watch",
-    "lint": "eslint client/**/*.js server/**/*.js --fix"
-  },
-  "betterScripts": {
-    "start:prod": {
-      "command": "npm run deploy:prod && node build/server.js",
-      "env": {
-        "NODE_ENV": "production"
-      }
-    },
-    "start:dev": {
-      "command": "npm run clean && babel-node --inspect=0.0.0.0:9235 src/server/server.js",
-      "env": {
-        "NODE_ENV": "development"
-      }
-    }
-  },
-  "jest": {
-    "moduleNameMapper": {
-      "\\.(scss|css)$": "<rootDir>/node_modules/jest-css-modules"
-    },
-    "setupFiles": [
-      "<rootDir>/test/shim.js",
-      "<rootDir>/test/enzyme.config.js"
-    ]
   },
   "devDependencies": {
     "babel-jest": "^23.0.0-alpha.0",
