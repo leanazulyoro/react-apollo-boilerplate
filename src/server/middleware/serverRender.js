@@ -8,7 +8,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import React from 'react';
 
 
-const serverRenderMiddleware = function(req, res, next) {
+const serverRender = function(req, res, next) {
   if (config.server.server_render === true) {
     const context = {};
 
@@ -47,4 +47,4 @@ const serverRenderMiddleware = function(req, res, next) {
   }
 }
 
-module.exports = serverRenderMiddleware;
+module.exports = serverRender;

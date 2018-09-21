@@ -1,7 +1,7 @@
 import React from "react";
 import renderHtml from "../renderHtml";
 
-const clientRenderMiddleware = function(req, res) {
+const clientRender = function(req, res) {
     const statusCode = 200;
     const html = renderHtml("");
     res.status(statusCode);
@@ -9,4 +9,4 @@ const clientRenderMiddleware = function(req, res) {
     res.end();
 };
 
-module.exports = clientRenderMiddleware;
+module.exports = clientRender;

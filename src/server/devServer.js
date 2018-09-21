@@ -15,7 +15,7 @@ export default function configureDevServer(server) {
 
     const compiler = webpack(webpackDevConfig);
 
-    server.withMiddleWare(require('webpack-dev-middleware')(compiler, {
+    server.use(require('webpack-dev-middleware')(compiler, {
       publicPath: project.compiler_public_path,
       contentBase: project.paths.client(),
       hot: true,
@@ -23,7 +23,7 @@ export default function configureDevServer(server) {
       serverSideRender: true
     }));
 
-    server.withMiddleWare(require('webpack-hot-middleware')(compiler, {
+    server.use(require('webpack-hot-middleware')(compiler, {
       path: '/__webpack_hmr'
     }));
 
