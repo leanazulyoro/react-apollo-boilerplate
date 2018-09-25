@@ -6,10 +6,9 @@ import HtmlBuilder from './builder/HtmlBuilder';
 import { renderToStaticMarkup } from 'react-dom/server';
 import project from '../../webpack/project.config';
 
-const renderHtml = (markup, client) => {
+const renderHtml = (markup, client, styles) => {
 
   const helmet = Helmet.renderStatic();
-
   let htmlBuilder = (new HtmlBuilder)
     .withBodyAttrs(helmet.htmlAttributes.toComponent())
     .withHtmlAttrs(helmet.bodyAttributes.toComponent())
@@ -26,7 +25,8 @@ const renderHtml = (markup, client) => {
     .withMarkup(<main
       id='root'
       dangerouslySetInnerHTML={{ __html: markup }} // eslint-disable-line react/no-danger
-    />);
+    />)
+    .withStyles(styles);
 
   const html = renderToStaticMarkup(htmlBuilder.build());
   return `${html}`;

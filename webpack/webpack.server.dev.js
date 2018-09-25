@@ -29,7 +29,21 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: 'babel-loader'
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['react', 'es2015', 'stage-1', 'react-hmre'],
+            plugins: [
+              [
+                "babel-plugin-styled-components",
+                {
+                  "ssr": true,
+                  "displayName": true
+                }
+              ]
+            ]
+          }
+        }
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,

@@ -9,6 +9,7 @@ class HtmlBuilder {
   _markup;
   _headTags;
   _footerTags;
+  _styles;
 
   constructor() {
     this._htmlAttrs = null;
@@ -17,6 +18,7 @@ class HtmlBuilder {
     this._headTags = [];
     this._footerTags = [];
     this._markup = null;
+    this._styles = null;
   }
 
   withHtmlAttrs(htmlAttrs) {
@@ -42,6 +44,10 @@ class HtmlBuilder {
 
     };
     this._headTags.push(tag);
+    return this;
+  }
+  withStyles(styles) {
+    this._styles = styles;
     return this;
   }
 
@@ -80,6 +86,11 @@ class HtmlBuilder {
       headTags = this._headTags.map((tag, i) => this._createTag(tag, i));
     }
 
+    let styles = null;
+    if (!!this._styles) {
+      styles = this._styles;
+    }
+
     let footerTags = [];
     if (this._footerTags.length > 0) {
       footerTags = this._footerTags.map((tag, i) => this._createTag(tag, i));
@@ -89,6 +100,7 @@ class HtmlBuilder {
       htmlAttrs={htmlAttrs}
       bodyAttrs={bodyAttrs}
       head={helmet.concat(headTags)}
+      styles={styles}
       footer={footerTags}
     >{markup}</Html>);
   }

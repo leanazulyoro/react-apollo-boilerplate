@@ -28,7 +28,19 @@ module.exports = {
         test: /\.js$/,
         use: [
           {
-            loader: "babel-loader"
+            loader: "babel-loader",
+            options: {
+              presets: ['react', 'es2015', 'stage-1', 'react-hmre'],
+              plugins: [
+                [
+                  "babel-plugin-styled-components",
+                  {
+                    "ssr": true,
+                    "displayName": true
+                  }
+                ]
+              ]
+            }
           },
         ],
         exclude: /node_modules/

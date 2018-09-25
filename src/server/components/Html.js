@@ -6,6 +6,7 @@ const Html = (props) => {
     <html {...props.htmlAttrs}>
       <head>
         {props.head}
+        {props.styles}
       </head>
       <body {...props.bodyAttrs}>
         {props.children}
@@ -18,6 +19,7 @@ const Html = (props) => {
 Html.propTypes = {
   htmlAttrs: PropTypes.object,
   head: PropTypes.array,
+  styles: PropTypes.array,
   bodyAttrs: PropTypes.object,
   children: PropTypes.object,
   footer: PropTypes.array

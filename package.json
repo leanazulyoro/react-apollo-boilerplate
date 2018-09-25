@@ -56,6 +56,7 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "safer-stringify": "^0.0.1",
+    "styled-components": "^3.4.9",
     "yn": "^2.0.0"
   },
   "devDependencies": {
@@ -63,6 +64,7 @@
     "babel-jest": "^23.0.0-alpha.0",
     "babel-loader": "^7.1.4",
     "babel-plugin-dynamic-import-node": "^2.0.0",
+    "babel-plugin-styled-components": "^1.7.1",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",

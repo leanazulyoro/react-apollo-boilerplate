@@ -7,29 +7,29 @@ import Routes from '../../client/routes';
 import { renderToStaticMarkup } from 'react-dom/server';
 import React from 'react';
 
+import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
 
 export default function serverRenderer({ clientStats, serverStats }) {
   return function(req, res, next) {
     if (config.server.server_render === true) {
       const context = {};
-
       const client = getClient();
-
-      const component = (
-        <ApolloProvider client={client}>
-          <StaticRouter
-            location={req.url}
-            context={context}
-          >
-            <Routes />
-          </StaticRouter>
-        </ApolloProvider>
-      );
+      const sheet = new ServerStyleSheet();
+      const component = sheet.collectStyles(
+          <ApolloProvider client={client}>
+            <StaticRouter
+              location={req.url}
+              context={context}
+            >
+              <Routes />
+            </StaticRouter>
+          </ApolloProvider>);
+      const styles = sheet.getStyleElement();
 
       renderToStringWithData(component)
         .then(content => {
           const statusCode = 200;
-          const html = renderHtml(content, client);
+          const html = renderHtml(content, client, styles);
           res.status(statusCode);
           res.send(html);
           res.end();

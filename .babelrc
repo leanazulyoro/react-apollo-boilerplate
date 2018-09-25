@@ -5,6 +5,13 @@
     "stage-0"
   ],
   "plugins": [
+    [
+      "babel-plugin-styled-components",
+      {
+        "ssr": true,
+        "displayName": true
+      }
+    ],
     "transform-decorators-legacy",
     "transform-class-properties",
     "syntax-async-functions",
