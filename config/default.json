@@ -5,7 +5,16 @@
       "ttl": "30",
       "static_ttl": "1800"
     },
-    "server_render": true
+    "server_render": true,
+
+    "paths": {
+      "public": "/public",
+      "client": "/src/client",
+      "server": "/src/server",
+      "dist": "/build"
+    }
+
+
   },
   "client": {
     "site_name": "TN Cover",

@@ -1,18 +1,20 @@
 const webpack = require('webpack');
-const config = require('./config');
+const project = require('./project.config');
+
 
 module.exports = {
+  name: 'client',
   mode: 'development',
   entry: {
     main: [
       'babel-polyfill',
-      config.paths.client('client.js'),
-      `webpack-hot-middleware/client?path=${config.compiler_public_path}__webpack_hmr`
+      project.paths.client,
+      `webpack-hot-middleware/client?path=${project.paths.compiler_public_path}__webpack_hmr`
     ]
   },
   output: {
-    publicPath: config.compiler_public_path,
-    path: config.paths.dist(),
+    publicPath: project.paths.compiler_public_path,
+    path: project.paths.dist,
     filename: `[name].bundle.js`,
     chunkFilename: `[name].bundle.js`
   },
@@ -33,33 +35,6 @@ module.exports = {
           }
         ],
         exclude: /node_modules/,
-      },
-      {
-        test: /\.(s)?css$/i,
-        include: config.paths.client(),
-        use: [
-          {
-            loader: 'style-loader',
-            options: {
-              sourceMap: true
-            }
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: true,
-              localIdentName: '[path]___[name]__[local]___[hash:base64:5]',
-              sourceMap: true
-            }
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              data: `$cdnUrl: '${config.cdn_url}';`,
-              sourceMap: true
-            }
-          }
-        ]
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
@@ -121,7 +96,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.DefinePlugin(config.globals),
+    new webpack.DefinePlugin(project.globals),
     new webpack.HotModuleReplacementPlugin(),
   ],
   optimization: {
@@ -139,7 +114,7 @@ module.exports = {
     }
   },
   devServer: {
-    outputPath: config.paths.dist(),
+    outputPath: project.paths.dist,
     historyApiFallback: true
   }
 };

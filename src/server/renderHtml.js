@@ -1,12 +1,10 @@
 import React from 'react';
 import config from 'isomorphic-config';
 import { Helmet } from 'react-helmet';
-import project from '../../webpack/config';
 import saferstringify from 'safer-stringify';
 import HtmlBuilder from './builder/HtmlBuilder';
 import { renderToStaticMarkup } from 'react-dom/server';
-
-const staticSuffix = project.build_number ? `-${project.build_number}` : '';
+import project from '../../webpack/project.config';
 
 const renderHtml = (markup, client) => {
 
@@ -23,21 +21,12 @@ const renderHtml = (markup, client) => {
     .withHelmet(helmet.style.toComponent())
     .withFooterTag('script', { charSet: 'UTF-8' }, `window.__APOLLO_STATE__=${saferstringify(client ? client.extract() : {})};`)
     .withFooterTag('script', { charSet: 'UTF-8' }, `var CONFIG=${JSON.stringify({ client: config.client })};`)
-    .withFooterTag('script', { defer: true, src: config.client.cdn_static_url + `/vendor.bundle${staticSuffix}.js` })
-    .withFooterTag('script', { defer: true, src: config.client.cdn_static_url + `/main.bundle${staticSuffix}.js` })
+    .withFooterTag('script', { defer: true, src: config.client.cdn_static_url + `/vendor.bundle${project.assets.suffix}.js` })
+    .withFooterTag('script', { defer: true, src: config.client.cdn_static_url + `/main.bundle${project.assets.suffix}.js` })
     .withMarkup(<main
       id='root'
       dangerouslySetInnerHTML={{ __html: markup }} // eslint-disable-line react/no-danger
     />);
-
-  if (process.env.NODE_ENV !== 'development') {
-    htmlBuilder.withHeadTag('link', {
-      type: 'text/css',
-      rel: 'stylesheet',
-      href: config.client.cdn_static_url + `/css/styles.css`,
-      media: 'all'
-    });
-  }
 
   const html = renderToStaticMarkup(htmlBuilder.build());
   return `${html}`;

@@ -1,53 +1,36 @@
-const config = require('./config');
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
+const Copy = require("copy-webpack-plugin");
+const project = require('./project.config');
+
 
 module.exports = {
-
+  name: 'server',
   mode: 'production',
-
   entry: {
-    server: ['babel-polyfill', config.paths.server('server.js')]
+    server: [
+      'babel-polyfill',
+      `${project.paths.server}/middleware/serverRender.js`
+    ]
   },
-
   output: {
-    filename: 'server.js',
-    path: config.paths.dist(),
-    publicPath: config.compiler_public_path
+    filename: 'serverRender.js',
+    path: project.paths.dist,
+    publicPath: project.paths.compiler_public_path,
+    libraryTarget: 'commonjs2'
   },
-
   target: 'node',
-
   node: {
     __filename: true,
     __dirname: true,
     fs: 'empty'
   },
-
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
         use: 'babel-loader'
-      },
-      {
-        test: /\.(s)?css$/,
-        include: config.paths.client(),
-        use: [
-          {
-            loader: 'css-loader',
-            options: {
-              localIdentName: '[path]___[name]__[local]___[hash:base64:5]'
-            }
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              data: `$cdnUrl: '${config.cdn_url}';`
-            }
-          }
-        ]
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
@@ -109,7 +92,13 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.DefinePlugin(config.globals)
+    new webpack.DefinePlugin(project.globals),
+    new Copy([
+      {
+        from: project.paths.public,
+        to: project.paths.dist
+      }
+    ]),
   ],
   externals: [nodeExternals()]
 };
