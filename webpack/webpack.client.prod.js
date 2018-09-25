@@ -1,24 +1,22 @@
 const webpack = require("webpack");
-const config = require("./config");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const Copy = require("copy-webpack-plugin");
+const project = require('./project.config');
 
-const staticSuffix = config.build_number ? `-${config.build_number}` : "";
-const ExtractStyle = new ExtractTextPlugin(`css/styles${staticSuffix}.css`);
 
 module.exports = {
+  name: 'client',
   mode: 'production',
   entry: {
     main: [
       "babel-polyfill",
-      config.paths.client("client.js")
+      project.paths.client
     ]
   },
   output: {
-    publicPath: config.compiler_public_path,
-    path: config.paths.dist(),
-    filename: `[name].bundle${staticSuffix}.js`,
-    chunkFilename: `[name].bundle${staticSuffix}.js`
+    publicPath: project.paths.compiler_public_path,
+    path: project.paths.dist,
+    filename: `[name].bundle${project.assets.suffix}.js`,
+    chunkFilename: `[name].bundle${project.assets.suffix}.js`
   },
   target: "web",
   node: {
@@ -34,25 +32,6 @@ module.exports = {
           },
         ],
         exclude: /node_modules/
-      },
-      {
-        test: /\.(s)?css$/i,
-        include: config.paths.client(),
-        use: ExtractStyle.extract([
-          {
-            loader: "css-loader",
-            options: {
-              importLoaders: true,
-              localIdentName: '[path]___[name]__[local]___[hash:base64:5]'
-            }
-          },
-          {
-            loader: "sass-loader",
-            options: {
-              data: `$cdnUrl: '${config.cdn_url}';`
-            }
-          }
-        ])
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
@@ -113,12 +92,11 @@ module.exports = {
     ]
   },
   plugins: [
-    ExtractStyle,
-    new webpack.DefinePlugin(config.globals),
+    new webpack.DefinePlugin(project.globals),
     new Copy([
       {
-        from: config.paths.public(),
-        to: config.paths.dist()
+        from: `${project.paths.server}/index.js`,
+        to: project.paths.dist
       }
     ]),
     new webpack.optimize.AggressiveMergingPlugin()

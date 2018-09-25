@@ -5,6 +5,11 @@ import client from "./apollo/apolloClient";
 import { ApolloProvider } from "react-apollo";
 import Routes from './routes';
 
+// @todo: esto fue necesario para que vuelva a funcionar el hot reload, ver alternativas sobre donde poner esto
+if (module.hot) {
+  module.hot.accept();
+}
+
 hydrate(
   <ApolloProvider client={client}>
     <Router>
