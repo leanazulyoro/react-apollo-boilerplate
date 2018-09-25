@@ -113,6 +113,9 @@ module.exports = {
         to: project.paths.dist
       }
     ]),
+    new webpack.optimize.LimitChunkCountPlugin({
+      maxChunks: 1,
+    }),
   ],
   externals: [nodeExternals()]
 };

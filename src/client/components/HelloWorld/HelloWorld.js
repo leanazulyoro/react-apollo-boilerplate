@@ -19,7 +19,7 @@ class HelloWorld extends PureComponent {
   }
 
   componentDidMount(){
-    import('../LoadableComponent/LoadableComponent')
+    import(/* webpackChunkName: "LoadableComponent" */ '../LoadableComponent/LoadableComponent')
       .then(module => this.setState({ LoadableComponent: module.default }))
   }
 
